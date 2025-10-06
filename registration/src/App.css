@@ -1,0 +1,126 @@
+/* Root container */
+#root {
+  max-width: 400px;         
+  margin: 3rem auto;         
+  padding: 2rem;
+  text-align:center;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #4646c9, #81d18e);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px rgba(189, 66, 66, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+
+/* Logo */
+.logo {
+  height: 5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.4s, filter 0.3s;
+  cursor: pointer;
+}
+.logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 15px #ff6ec7aa);
+}
+
+/* Form card */
+.card {
+  width: 200px;
+  padding: 2rem;
+  background: #ab2424dd;       
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* adds consistent spacing between fields */
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* Input wrapper for label + input */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+/* Inputs */
+input, .input-field {
+  width: 100%;
+  color: #111010;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #ddd;
+  background: #f3f0f0;
+  transition: border 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+input:focus {
+  outline: none;
+  border-color: #0b090a;
+  box-shadow: 0 0 10px #070607aa;
+}
+
+/* Buttons */
+button, .btn {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top:20px;
+  border-radius: 0.75rem;
+  border: none;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ded9dc, #0a0a0b);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Links */
+a {
+  color: #201922;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+a:hover {
+  color: #ff6ec7;
+}
+
+/* Error messages */
+.error {
+  color: #ff4d6d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Subtle animations */
+@keyframes pulse-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.bg-gradient-animated {
+  background: linear-gradient(270deg, #ff6ec7, #5d9cff, #6effc7);
+  background-size: 600% 600%;
+  animation: pulse-bg 8s ease infinite;
+}
+
+/* Responsive: stack first & last name side by side on larger screens */
+.name-group {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+.name-group .input-group {
+  flex: 1;
+}
