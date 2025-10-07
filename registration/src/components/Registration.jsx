@@ -29,19 +29,18 @@ export default function Registration() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-teal-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-teal-100">
       <Toaster position="top-right" richColors />
-      <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md space-y-6">
+      <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-800">
           Create Account
         </h2>
         <p className="text-center text-gray-500">Sign up to get started</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* First & Last Name */}
-          <div className="grid grid-cols-2 gap-4">
+          <div>
             <div>
-              <label className="block text-gray-600 mb-1">First Name</label>
+              <label className="block text-gray-600 mb-3">First Name</label>
               <input
                 type="text"
                 {...register("firstName")}
@@ -49,7 +48,7 @@ export default function Registration() {
                 className="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-transparent transition"
               />
               {errors.firstName && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500  text-sm mt-1">
                   {errors.firstName.message}
                 </p>
               )}
@@ -70,7 +69,7 @@ export default function Registration() {
             </div>
           </div>
 
-          {/* Email */}
+ 
           <div>
             <label className="block text-gray-600 mb-1">Email</label>
             <input
@@ -86,7 +85,7 @@ export default function Registration() {
             )}
           </div>
 
-          {/* Password */}
+
           <div>
             <label className="block text-gray-600 mb-1">Password</label>
             <input
@@ -102,7 +101,6 @@ export default function Registration() {
             )}
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label className="block text-gray-600 mb-1">Confirm Password</label>
             <input
@@ -118,11 +116,11 @@ export default function Registration() {
             )}
           </div>
 
-          {/* Submit Button */}
+
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold rounded-xl hover:from-green-600 hover:to-teal-600 transition"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
           >
             {isSubmitting ? "Creating..." : "Sign Up"}
           </button>

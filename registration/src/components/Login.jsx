@@ -1,94 +1,85 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../validations/loginSchema";
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
-export default function Login() {
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(loginSchema),
-  });
 
-  const onSubmit = (data) => {
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const user = existingUsers.find(
-      (u) => u.email === data.email && u.password === data.password
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const matchedUser = storedUsers.find(
+      (user) => user.email === email && user.password === password
     );
-    if (user) {
-      localStorage.setItem("loggedInUser", JSON.stringify(user)); // save logged-in user
+
+    if (matchedUser) {
+      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
       toast.success("Login successful!");
-      setTimeout(() => navigate("/profile"), 1000); // navigate to profile
+      navigate("/profile");
     } else {
-      toast.error("Invalid credentials!");
+      toast.error("Invalid email or password");
     }
   };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
-      <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md space-y-6">
-        <h2 className="text-3xl font-bold text-center text-gray-800">
-          Welcome Back
-        </h2>
-        <p className="text-center text-gray-500">Sign in to your account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-teal-100">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md space-y-6"
+      >
+        <h2 className="text-3xl font-bold text-center text-gray-800">Login</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              {...register("email")}
-              placeholder="you@example.com"
-              className="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+        <div className="flex flex-col text-left">
+          <label className="text-gray-600 mb-1 font-medium">Email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              {...register("password")}
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+        <div className="flex flex-col text-left relative">
+          <label className="text-gray-600 mb-1 font-medium">Password</label>
+          <input
+            type={showPassword ? "text" : "password"} 
+            placeholder="Enter your password"
+            className="border border-gray-300 rounded-lg p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-green-400"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition"
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
           >
-            {isSubmitting ? "Signing in..." : "Sign In"}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
-        </form>
+        </div>
 
-        <p className="text-center text-gray-500">
-          Don't have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-purple-500 hover:underline font-medium"
-          >
+        <button
+          type="submit"
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
+        >
+          Login
+        </button>
+
+        <p className="text-center text-gray-600">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-green-600 hover:underline">
             Sign up
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 }
