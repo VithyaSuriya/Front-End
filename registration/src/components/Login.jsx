@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, EyeOffIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -62,7 +62,7 @@ export default function Login() {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         </div>
 
