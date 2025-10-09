@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
+import UsersTable from "./UsersTable";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -32,18 +33,18 @@ export default function Profile() {
     localStorage.setItem("loggedInUser", JSON.stringify(editData));
     setUser(editData);
     setIsEditing(false);
-    toast.success("Profile updated successfully!");
+    toast.success("Profile updated successfully!",{duration:1000});
   };
 
 
   const handleDelete = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account?");
+    const confirmDelete = window.confirm("Are you sure you want to delete your account?",{duration:1000});
     if (confirmDelete) {
       const allUsers = JSON.parse(localStorage.getItem("users")) || [];
       const updatedUsers = allUsers.filter((u) => u.email !== user.email);
       localStorage.setItem("users", JSON.stringify(updatedUsers));
       localStorage.removeItem("loggedInUser");
-      toast.success("Account deleted!");
+      toast.success("Account deleted!" ,{duration:1000});
       navigate("/login");
     }
   };
@@ -51,7 +52,7 @@ export default function Profile() {
  
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
-    toast.success("Logged out successfully!");
+    toast.success("Logged out successfully!",{duration:1000});
     navigate("/login");
   };
 
@@ -170,7 +171,9 @@ export default function Profile() {
         )}
       </div>
 
-     
+      <div className="mt-10 w-full max-w-3xl">
+        <UsersTable/>
+      </div>
       {showLogoutConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white rounded-xl p-8 w-11/12 max-w-md shadow-lg">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, EyeOffIcon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -19,10 +19,10 @@ export default function Login() {
 
     if (matchedUser) {
       localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
-      toast.success("Login successful!");
+      toast.success("Login successful!",{duration:1000});
       navigate("/profile");
     } else {
-      toast.error("Invalid email or password");
+      toast.error("Invalid email or password",{duration:1000});
     }
   };
 
@@ -49,23 +49,29 @@ export default function Login() {
         <div className="flex flex-col text-left relative">
           <label className="text-gray-600 mb-1 font-medium">Password</label>
           <input
-            type={showPassword ? "text" : "password"} 
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
             className="border border-gray-300 rounded-lg p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-green-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
-
+          <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
+        >
+          {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+        </button>
         </div>
-
+        
         <button
           type="submit"
           className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
         >
           Login
         </button>
+        
 
         <p className="text-center text-gray-600">
           Don’t have an account?{" "}
