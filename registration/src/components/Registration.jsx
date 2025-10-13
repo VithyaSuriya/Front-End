@@ -15,22 +15,35 @@ export default function Registration() {
     resolver: yupResolver(registrationSchema),
   });
 
-  const onSubmit = (data) => {
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const isDuplicate = existingUsers.some((user) => user.email === data.email);
-    if (isDuplicate) {
-      toast.error("This email is already registered!");
-      return;
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/create`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${data.firstName}${data.lastName}`,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+      const result = await res.json();
+      console.log(result);
+      if (res.ok) {
+        toast.success("Account created successfully");
+        setTimeout(() => navigate("/login"), 1000);
+      } else {
+        toast.error(result.message || "Registration failed");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+      toast.error("Something went wrong!");
     }
-    existingUsers.push(data);
-    localStorage.setItem("users", JSON.stringify(existingUsers));
-    toast.success("Account created successfully!");
-    setTimeout(() => navigate("/login"), 1000);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to- from-green-100 to-red-100">
-     
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-red-100">
       <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-800">
           Create Account
@@ -69,7 +82,6 @@ export default function Registration() {
             </div>
           </div>
 
- 
           <div>
             <label className="block text-gray-600 mb-1">Email</label>
             <input
@@ -84,7 +96,6 @@ export default function Registration() {
               </p>
             )}
           </div>
-
 
           <div>
             <label className="block text-gray-600 mb-1">Password</label>
@@ -115,7 +126,6 @@ export default function Registration() {
               </p>
             )}
           </div>
-
 
           <button
             type="submit"

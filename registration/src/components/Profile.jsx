@@ -11,7 +11,6 @@ export default function Profile() {
   const [editData, setEditData] = useState({});
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  
   useEffect(() => {
     const loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedUser) {
@@ -33,26 +32,27 @@ export default function Profile() {
     localStorage.setItem("loggedInUser", JSON.stringify(editData));
     setUser(editData);
     setIsEditing(false);
-    toast.success("Profile updated successfully!",{duration:1000});
+    toast.success("Profile updated successfully!", { duration: 1000 });
   };
 
-
   const handleDelete = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account?",{duration:1000});
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account?",
+      { duration: 1000 }
+    );
     if (confirmDelete) {
       const allUsers = JSON.parse(localStorage.getItem("users")) || [];
       const updatedUsers = allUsers.filter((u) => u.email !== user.email);
       localStorage.setItem("users", JSON.stringify(updatedUsers));
       localStorage.removeItem("loggedInUser");
-      toast.success("Account deleted!" ,{duration:1000});
+      toast.success("Account deleted!", { duration: 1000 });
       navigate("/login");
     }
   };
 
- 
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
-    toast.success("Logged out successfully!",{duration:1000});
+    toast.success("Logged out successfully!", { duration: 1000 });
     navigate("/login");
   };
 
@@ -114,7 +114,6 @@ export default function Profile() {
               >
                 Delete
               </button>
-
             </div>
           </>
         ) : (
@@ -172,7 +171,7 @@ export default function Profile() {
       </div>
 
       <div className="mt-10 w-full max-w-3xl">
-        <UsersTable/>
+        <UsersTable />
       </div>
       {showLogoutConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
@@ -180,7 +179,9 @@ export default function Profile() {
             <h3 className="text-2xl font-semibold mb-4 text-gray-800">
               Confirm Logout
             </h3>
-            <p className="mb-6 text-gray-600">Are you sure you want to log out?</p>
+            <p className="mb-6 text-gray-600">
+              Are you sure you want to log out?
+            </p>
 
             <div className="flex justify-end space-x-4">
               <button

@@ -9,23 +9,32 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const matchedUser = storedUsers.find(
-      (user) => user.email === email && user.password === password
-    );
+      const data = await res.json();
 
-    if (matchedUser) {
-      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
-      toast.success("Login successful!",{duration:1000});
-      navigate("/profile");
-    } else {
-      toast.error("Invalid email or password",{duration:1000});
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        toast.success("Login successful!", { duration: 1000 });
+        navigate("/users");
+      } else {
+        toast.error(data.message || "Invalid email or password", {
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Something went wrong", { duration: 1000 });
+      
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-teal-100">
       <form
@@ -57,21 +66,20 @@ export default function Login() {
             required
           />
           <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
-        >
-          {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-        </button>
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+          </button>
         </div>
-        
+
         <button
           type="submit"
           className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
         >
           Login
         </button>
-        
 
         <p className="text-center text-gray-600">
           Don’t have an account?{" "}
