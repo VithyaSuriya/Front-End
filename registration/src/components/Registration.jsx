@@ -147,5 +147,5 @@ export default function Registration() {
         </p>
       </div>
     </div>
-  );
+  );  
 }

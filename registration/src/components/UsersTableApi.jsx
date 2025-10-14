@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useThrottle  from "../hooks/useThrottle";
+import useThrottle from "../hooks/useThrottle";
 
 export default function UsersTableApi() {
   const [users, setUsers] = useState([]);
@@ -7,7 +7,7 @@ export default function UsersTableApi() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
-  const throttledSearchTerm=useThrottle(searchTerm,500)
+  const throttledSearchTerm = useThrottle(searchTerm, 500);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -65,18 +65,24 @@ export default function UsersTableApi() {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center space-x-2">
           <label className="text-gray-600 font-medium">Show</label>
-          <select
-            value={usersPerPage}
-            onChange={(e) => {
-              setUsersPerPage(Number(e.target.value));
-              setCurrentPage(1);
-            }}
-            className="pl-3 pr-8 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-green-400 focus:border-transparent outline-none shadow-sm bg-white appearance-none cursor-pointer"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-          </select>
+          <div className="relative">
+            <select
+              value={usersPerPage}
+              onChange={(e) => {
+                setUsersPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="pl-3 pr-8 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-green-400 focus:border-transparent outline-none shadow-sm bg-white appearance-none cursor-pointer"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+              ▼
+            </span>
+          </div>
+
           <span className="text-gray-600 font font-medium">entries</span>
         </div>
 
@@ -115,7 +121,7 @@ export default function UsersTableApi() {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user) => (
+              {currentUsers.map((user) => (
                 <tr key={user._id} className="text-center">
                   <td className="border p-2">{user._id}</td>
                   <td className="border p-2">{user.name}</td>
